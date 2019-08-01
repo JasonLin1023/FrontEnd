@@ -1,0 +1,15 @@
+.barFrame {
+  width: 100%;
+  border-radius:8px;
+  background-color: #ddd;
+}
+
+.barFrame .barProgress {
+  width: 0;
+  height: 30px;
+  border-radius:8px;
+  background-color: #F97E64;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
