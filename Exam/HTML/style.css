@@ -1,0 +1,157 @@
+
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+body{
+  box-sizing: border-box;
+}
+
+.orange {
+  color: #fd7e14;
+}
+.red {
+  color: #ff001a;
+}
+
+.lightblue {
+  color: #1493fd;
+}
+
+.darkblue {
+  color: #00188d;
+}
+
+.column{
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+}
+
+.main{
+  display: flex;
+  width: 70%;
+  padding: 1%;
+  background-color: #f2f0ed;
+  display: inline-block;
+  max-width: 1500px;
+  flex-direction: column;
+  border: 1.5px solid Lightgray;
+}
+
+.topform{
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonform{
+  padding: 2%;
+}
+
+.aside{
+  width: 30%;
+  padding: 0;
+  display: inline-block;
+  max-width: 300px;
+}
+
+.longtext{
+  padding: 2%;
+  width: 45%;
+}
+
+.shorttext{
+  width: 43%;
+  margin: auto 4%;
+  padding: 0;
+}
+
+.cart{
+  padding: 5%;
+  margin: 0 15px;
+  width: 80%;
+  background-color: #f2f0ed;
+  border: 1.5px solid Lightgray;
+}
+
+.row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5%;
+  margin: 0 15px;
+}
+
+.price{
+  margin-right: 0;
+}
+
+.button{
+  background-color: #3c3c3c;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin-top: 5%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width:100%;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 10px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 900px) {
+.column{
+  box-sizing: border-box;
+  width: 100%;
+  margin: auto;
+  display: inline;
+  height: auto;
+  flex-direction: column;
+}
+
+.main{
+  width: 100%;
+  margin: auto;
+}
+
+.aside{
+    width: 100%;
+    max-width: 900px;
+  }
+
+.cart{
+  width: 100%;
+  margin: 25px 0;
+  max-width: none;
+}
+
+  .shorttext{
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+}
