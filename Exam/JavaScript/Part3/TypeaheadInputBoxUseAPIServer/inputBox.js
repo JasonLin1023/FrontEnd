@@ -18,8 +18,9 @@ function view(container, model){
     let cb = debouce(model.fetchData, 100);
     
     _input.addEventListener('keyup', function(e){
-        let inputText = e.target.value;
 
+        let inputText = e.target.value;
+        if(e.keyCode != 13)
         cb(inputText);
     });
 
@@ -31,8 +32,10 @@ function view(container, model){
         } else if(keyCode === 40) {
             // DOWN
             model.arrowKey(DIRECTION.DOWN);
-        } else if (keyCode === 13) {
-                _options.click();
+        } 
+        else if (keyCode === 13) {
+                _input.value = document.querySelector('.typeahead-active').innerHTML;
+                _options.style.display = 'none';
         }
     });
     
