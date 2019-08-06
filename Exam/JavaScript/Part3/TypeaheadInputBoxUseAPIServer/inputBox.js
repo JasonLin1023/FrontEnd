@@ -5,9 +5,9 @@ const DIRECTION = {
 let _currentFocus = -1;
 
 
-function view(container, model){
-    let _input = document.createElement('input'),
-    _options = document.createElement('div');
+function view (container, model){
+    let _input = document.createElement('input');
+    let _options = document.createElement('div');
     
     _input.setAttribute('type', 'text');
     _options.setAttribute('class', 'options');
@@ -17,35 +17,34 @@ function view(container, model){
     
     let cb = debouce(model.fetchData, 100);
     
-    _input.addEventListener('keyup', function(e){
-
+    _input.addEventListener('keyup', function (e){
         let inputText = e.target.value;
         if(e.keyCode != 13)
         cb(inputText);
     });
 
-    container.addEventListener('keyup', function(e) {
+    container.addEventListener('keyup', function (e) {
      let keyCode = e.keyCode;
-     if(keyCode === 38) {
+     if (keyCode == 38) {
             // UP
             model.arrowKey(DIRECTION.UP);
-        } else if(keyCode === 40) {
+        } else if (keyCode == 40) {
             // DOWN
             model.arrowKey(DIRECTION.DOWN);
         } 
-        else if (keyCode === 13) {
+        else if (keyCode == 13) {
                 _input.value = document.querySelector('.typeahead-active').innerHTML;
                 _options.style.display = 'none';
         }
     });
     
-    function render(data, currentFocus){
-        if(!data || !data.length) {
+    function render (data, currentFocus) {
+        if (!data || !data.length) {
             _options.style.display = 'none';
         } else {
             _options.innerHTML = '';
             
-            for(let i=0;i<data.length;i++) {
+            for (let i = 0; i < data.length; i++) {
                 let item = data[i];
 
                 let singleOption = document.createElement('div');
@@ -55,7 +54,7 @@ function view(container, model){
                     singleOption.setAttribute('class', 'typeahead-active');
                 }
 
-                _options.addEventListener('click', function(e) {
+                _options.addEventListener('click', function (e) {
                 _input.value = e.target.innerHTML;
                 _options.style.display = 'none';
                 });
@@ -70,14 +69,12 @@ function view(container, model){
     model.subscribe(render);
 }
 
-
-
 function model(){
     let _subscriber, _cache={}, _data;
     
-    function _fetchData(text){
+    function _fetchData (text){
 
-        if(_cache[text]) {
+        if (_cache[text]) {
             apiBack(_cache[text]);
         } else {
             fetch('https://swapi.co/api/people/?search=' + text)
@@ -89,7 +86,7 @@ function model(){
         }
     }
     
-    function apiBack(json) {
+    function apiBack (json) {
         let names = json.results.map(function(item){
             return item.name;
         });
@@ -99,25 +96,24 @@ function model(){
         _subscriber(_data, _currentFocus);
     }
     
-    function _arrowKey(direction){
+    function _arrowKey (direction){
         // update _currentFocus
         
-        if(direction === DIRECTION.DOWN) {
+        if (direction == DIRECTION.DOWN) {
             _currentFocus++;
             
             _currentFocus = _currentFocus > _data.length-1 ?  0 : _currentFocus;
-        } else if (direction === DIRECTION.UP) {
+        } else if (direction == DIRECTION.UP) {
             _currentFocus--;
             
             _currentFocus = _currentFocus < 0 ? _data.length-1 : _currentFocus;
         }
-        
         _subscriber(_data, _currentFocus);
     }
 
     return {
-        subscribe: function(fn) {
-            if(!_subscriber) _subscriber = fn;
+        subscribe: function (fn) {
+            if (!_subscriber) _subscriber = fn;
         },
         fetchData: _fetchData,
         arrowKey: _arrowKey
@@ -125,10 +121,10 @@ function model(){
 }
 
 
-function debouce(fn, wait) {
+function debouce (fn, wait) {
     let _timer;
 
-    return function(...args){
+    return function (...args){
         clearTimeout(_timer);
 
         _timer = setTimeout(function(){
