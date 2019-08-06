@@ -26,9 +26,15 @@ let view = function(container, model) {
         for(let option of data) {
            let singleOption = document.createElement('div');
            singleOption.innerHTML = option;
-           
+
+           _optionsDom.addEventListener('click', function(e) {
+            _inputDom.value = e.target.innerHTML;
+            _optionsDom.style.display = 'none';
+           }) 
+
            _optionsDom.appendChild(singleOption);
         }
+
         _optionsDom.style.display = 'block';
      }
   }
