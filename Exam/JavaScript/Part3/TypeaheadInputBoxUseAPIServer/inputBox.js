@@ -2,11 +2,12 @@ const DIRECTION = {
     UP: 'up',
     DOWN: 'down'
 } 
+let _currentFocus = -1;
 
 
 function view(container, model){
     let _input = document.createElement('input'),
-        _options = document.createElement('div');
+    _options = document.createElement('div');
     
     _input.setAttribute('type', 'text');
     _options.setAttribute('class', 'options');
@@ -21,22 +22,21 @@ function view(container, model){
 
         cb(inputText);
     });
-    
+
     container.addEventListener('keyup', function(e) {
-       let keyCode = e.keyCode;
-       
-         
-       if(keyCode === 38) {
+     let keyCode = e.keyCode;
+     if(keyCode === 38) {
             // UP
             model.arrowKey(DIRECTION.UP);
-       } else if(keyCode === 40) {
+        } else if(keyCode === 40) {
             // DOWN
             model.arrowKey(DIRECTION.DOWN);
-       }
+        } else if (keyCode === 13) {
+                _options.click();
+        }
     });
     
-    
-    function render(data, selected){
+    function render(data, currentFocus){
         if(!data || !data.length) {
             _options.style.display = 'none';
         } else {
@@ -48,9 +48,14 @@ function view(container, model){
                 let singleOption = document.createElement('div');
                 singleOption.innerHTML = item;
                 
-                if(i === selected) {
-                    singleOption.innerHTML = item + ' selected';
+                if(i == currentFocus) {
+                    singleOption.setAttribute('class', 'typeahead-active');
                 }
+
+                _options.addEventListener('click', function(e) {
+                _input.value = e.target.innerHTML;
+                _options.style.display = 'none';
+                });
                 
                 _options.appendChild(singleOption);
             }
@@ -65,19 +70,19 @@ function view(container, model){
 
 
 function model(){
-    let _subscriber, _cache={}, _data, _currentFocus = -1;
+    let _subscriber, _cache={}, _data;
     
     function _fetchData(text){
-        
+
         if(_cache[text]) {
             apiBack(_cache[text]);
         } else {
             fetch('https://swapi.co/api/people/?search=' + text)
-                .then(response => response.json())
-                .then(function(json){
-                    _cache[text] = json;
-                    apiBack(json);
-                });
+            .then(response => response.json())
+            .then(function(json){
+                _cache[text] = json;
+                apiBack(json);
+            });
         }
     }
     
@@ -97,11 +102,11 @@ function model(){
         if(direction === DIRECTION.DOWN) {
             _currentFocus++;
             
-            _currentFocus = _currentFocus > _data.length-1 ?  _data.length-1 : _currentFocus;
+            _currentFocus = _currentFocus > _data.length-1 ?  0 : _currentFocus;
         } else if (direction === DIRECTION.UP) {
             _currentFocus--;
             
-            _currentFocus = _currentFocus < -1 ? -1 : _currentFocus;
+            _currentFocus = _currentFocus < 0 ? _data.length-1 : _currentFocus;
         }
         
         _subscriber(_data, _currentFocus);
